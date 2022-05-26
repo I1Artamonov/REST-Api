@@ -7,9 +7,9 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
-
 import java.util.HashSet;
 import java.util.Set;
+
 
 @Controller
 public class StartController {
