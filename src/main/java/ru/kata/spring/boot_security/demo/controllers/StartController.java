@@ -22,8 +22,8 @@ public class StartController {
     @GetMapping("/start")
     void init() {
 
-        Role roleAdmin = new Role("ADMIN");
-        Role roleUser = new Role("USER");
+        Role roleAdmin = new Role("ROLE_ADMIN");
+        Role roleUser = new Role("ROLE_USER");
 
         Set<Role> adminRoleSet = new HashSet<>();
         Set<Role> userRoleSet = new HashSet<>();
