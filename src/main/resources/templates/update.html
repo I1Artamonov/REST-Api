@@ -11,7 +11,7 @@
     <label for="username">Username:</label>
     <input type="text" th:field="*{username}" id="username">
     <br/>
-    <label for="password">Name:</label>
+    <label for="password">Password:</label>
     <input type="text" th:field="*{password}" id="password">
     <br/>
     <label for="name">Name:</label>
@@ -27,17 +27,10 @@
     <input type="email" th:field="*{email}" id="email">
     <br/>
 
-    <p>
-        <label>Roles:
-            <input type="checkbox" name="roleList"
-                   th:each="role : ${roleList}"
-                   th:text="${role.role}"
-                   th:value="${role.role}"
-                   th:field="*{roles}"
-            />
-        </label>
     </p>
-
+    <input type="checkbox" name="listRoles" value="USER"/> USER
+    <input type="checkbox" name="listRoles" value="ADMIN"/> ADMIN
+    <p>
 
     <input type="submit" value="Update!">
     <br/>

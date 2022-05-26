@@ -40,7 +40,7 @@ public class RoleDaoImpl implements RoleDao{
     @Override
     @Transactional(readOnly = true)
     public Role getRoleByName(String name) {
-        return entityManager.createQuery("SELECT Role FROM Role where role = :role", Role.class)
+        return entityManager.createQuery("SELECT r FROM Role r where r.role = :role", Role.class)
                 .setParameter("role", name).getSingleResult();
     }
 
@@ -48,6 +48,6 @@ public class RoleDaoImpl implements RoleDao{
     @Transactional(readOnly = true)
     @SuppressWarnings("unchecked")
     public List<Role> getAllRoles() {
-        return entityManager.createQuery("from Role").getResultList();
+        return entityManager.createQuery("select r from Role r").getResultList();
     }
 }

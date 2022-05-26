@@ -32,6 +32,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User user) {
+        boolean passwordIsNotСhanged = userDao.getUserById(user.getId()).getPassword().equals(user.getPassword());
+        if(!passwordIsNotСhanged) {
+            user.setPassword(passwordConfig.passwordEncoder().encode(user.getPassword()));
+        }
         userDao.updateUser(user);
     }
 

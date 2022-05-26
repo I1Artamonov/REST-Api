@@ -40,7 +40,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Transactional(readOnly = true)
     public User getUserByUsername(String username) {
-        return (User) entityManager.createQuery("select User from User where username = :username")
+        return entityManager.createQuery("select u from User u where u.username = :username", User.class)
                 .setParameter("username", username).getSingleResult();
     }
 
@@ -48,6 +48,6 @@ public class UserDaoImpl implements UserDao {
     @SuppressWarnings("unchecked")
     @Transactional(readOnly = true)
     public List<User> getAllUsers() {
-        return entityManager.createQuery("from User").getResultList();
+        return entityManager.createQuery("select u from User u").getResultList();
     }
 }

@@ -171,10 +171,13 @@ public class User implements UserDetails {
     public String toString() {
         return "User{" +
                 "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", last_name='" + last_name + '\'' +
                 ", age=" + age +
                 ", email='" + email + '\'' +
+                ", roles=" + roles +
                 '}';
     }
 }
