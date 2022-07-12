@@ -9,6 +9,8 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
+
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,22 +25,25 @@ public class AdminController {
     @Autowired
     private RoleService roleService;
     @Autowired
-    PasswordConfig passwordConfig;
+    private PasswordConfig passwordConfig;
 
     @GetMapping()
-    public String showUsersList(Model model){
-        model.addAttribute("usersList", userService.getAllUsers());
-        return "admin";
+    public String showUsersList(Principal principal, Model model){
+        model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("roles", roleService.getAllRoles());
+        model.addAttribute("user", new User());
+        model.addAttribute("currentUser", userService.getUserByUsername(principal.getName()));
+        return "users-list";
     }
 
     @GetMapping("/new")
     public String create(@ModelAttribute("user") User user, Model model) {
         model.addAttribute("roleList", roleService.getAllRoles());
-        return "create";
+        return "user-create";
     }
 
     @PostMapping("/new")
-    public String saveUser(@ModelAttribute("user") User user, @RequestParam("listRoles") String[] newRoles) {
+    public String saveUser(@ModelAttribute("user") User user, @RequestParam("newRoles") String[] newRoles) {
 
         for (int i = 0; i < newRoles.length; i++) {
             user.addRole(roleService.getRoleByName(newRoles[i]));
@@ -47,14 +52,20 @@ public class AdminController {
         return "redirect:/admin";
     }
 
+    @DeleteMapping("/delete/{id}")
+    public String delete(@PathVariable("id") int id) {
+        userService.deleteUser(id);
+        return "redirect:/admin";
+    }
+
     @GetMapping("/edit")
     public String edit(Model model, @RequestParam(value = "id") int id) {
         model.addAttribute("user", userService.getUserById(id));
-        return "update";
+        return "user-update";
     }
 
-    @PatchMapping("update/{id}")
-    public String update(@ModelAttribute("user") User user, @RequestParam("listRoles") String[] newRoles) {
+    @PutMapping("update/{id}")
+    public String update(@ModelAttribute("user") User user, @RequestParam("userRoles") String[] newRoles) {
         Set<Role> roleSet = new HashSet<>();
         for (int i = 0; i < newRoles.length; i++) {
             roleSet.add(roleService.getRoleByName(newRoles[i]));
@@ -64,11 +75,7 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable("id") int id) {
-        userService.deleteUser(id);
-        return "redirect:/admin";
-    }
+
 
 
 

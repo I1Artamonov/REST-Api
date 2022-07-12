@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 
@@ -90,7 +91,15 @@ public class User implements UserDetails {
         return getRoles();
     }
 
-
+    public String getRolesString(){
+        StringBuilder str = new StringBuilder();
+        for (Role role : roles) {
+            str.append(role.getRole());
+            str.append(" ");
+        }
+        return (str.length() > 0) ? str.deleteCharAt(str.length() - 1).toString()
+                : "";
+    }
 
     public int getId() {
         return id;
