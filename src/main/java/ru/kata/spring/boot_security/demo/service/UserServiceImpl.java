@@ -13,9 +13,11 @@ public class UserServiceImpl implements UserService {
     private final UserDao userDao;
     private final PasswordConfig passwordConfig;
 
+
     public UserServiceImpl(UserDao userDao, PasswordConfig passwordConfig) {
         this.userDao = userDao;
         this.passwordConfig = passwordConfig;
+
     }
 
     @Override
@@ -26,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(int id) {
-        userDao.deleteUser(id);
+        userDao.deleteUser(getUserById(id));
     }
 
     @Override

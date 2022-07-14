@@ -20,12 +20,15 @@ import java.util.Set;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private RoleService roleService;
-    @Autowired
-    private PasswordConfig passwordConfig;
+    private final UserService userService;
+    private final RoleService roleService;
+    private final PasswordConfig passwordConfig;
+
+    public AdminController(UserService userService, RoleService roleService, PasswordConfig passwordConfig) {
+        this.userService = userService;
+        this.roleService = roleService;
+        this.passwordConfig = passwordConfig;
+    }
 
     @GetMapping()
     public String showUsersList(Principal principal, Model model){
@@ -45,9 +48,7 @@ public class AdminController {
     @PostMapping("/new")
     public String saveUser(@ModelAttribute("user") User user, @RequestParam("newRoles") String[] newRoles) {
 
-        for (int i = 0; i < newRoles.length; i++) {
-            user.addRole(roleService.getRoleByName(newRoles[i]));
-        }
+        user.setRoles(roleService.getRolesByArray(newRoles));
         userService.saveUser(user);
         return "redirect:/admin";
     }
@@ -66,11 +67,7 @@ public class AdminController {
 
     @PutMapping("update/{id}")
     public String update(@ModelAttribute("user") User user, @RequestParam("userRoles") String[] newRoles) {
-        Set<Role> roleSet = new HashSet<>();
-        for (int i = 0; i < newRoles.length; i++) {
-            roleSet.add(roleService.getRoleByName(newRoles[i]));
-        }
-        user.setRoles(roleSet);
+        user.setRoles(roleService.getRolesByArray(newRoles));
         userService.updateUser(user);
         return "redirect:/admin";
     }

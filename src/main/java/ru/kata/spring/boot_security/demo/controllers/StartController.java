@@ -14,10 +14,15 @@ import java.util.Set;
 @Controller
 public class StartController {
 
-    @Autowired
+    final
     UserService userService;
-    @Autowired
+    final
     RoleService roleService;
+
+    public StartController(UserService userService, RoleService roleService) {
+        this.userService = userService;
+        this.roleService = roleService;
+    }
 
     @GetMapping("/start")
     void init() {

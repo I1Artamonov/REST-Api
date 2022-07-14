@@ -22,8 +22,8 @@ public class RoleDaoImpl implements RoleDao{
     }
 
     @Override
-    public void deleteRole(int id) {
-        entityManager.remove(getRoleById(id));
+    public void deleteRole(Role role) {
+        entityManager.remove(role);
     }
 
     @Override
@@ -50,4 +50,6 @@ public class RoleDaoImpl implements RoleDao{
     public List<Role> getAllRoles() {
         return entityManager.createQuery("select r from Role r").getResultList();
     }
+
+
 }

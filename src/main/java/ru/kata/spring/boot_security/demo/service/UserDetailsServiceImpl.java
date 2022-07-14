@@ -13,7 +13,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserService userService;
 
-    @Autowired
     public UserDetailsServiceImpl(UserService userService) {
         this.userService = userService;
     }

@@ -8,7 +8,7 @@ public interface RoleDao {
 
     public void saveRole(Role role);
 
-    public void deleteRole(int id);
+    public void deleteRole(Role role);
 
     public void updateRole(Role role);
 
