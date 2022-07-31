@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
@@ -18,13 +19,14 @@ public class User implements UserDetails {
     private String username;
 
     @Column(name = "password", nullable = false)
+    @JsonIgnore
     private String password;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "last_name")
-    private String last_name;
+    private String lastName;
 
     @Column(name = "age")
     private int age;
@@ -32,7 +34,7 @@ public class User implements UserDetails {
     @Column(name = "email")
     private String email;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
@@ -46,7 +48,7 @@ public class User implements UserDetails {
         this.username = username;
         this.password = password;
         this.name = name;
-        this.last_name = last_name;
+        this.lastName = last_name;
         this.age = age;
         this.email = email;
         this.roles = roles;
@@ -56,7 +58,7 @@ public class User implements UserDetails {
         this.username = username;
         this.password = password;
         this.name = name;
-        this.last_name = last_name;
+        this.lastName = last_name;
         this.age = age;
         this.email = email;
     }
@@ -133,11 +135,11 @@ public class User implements UserDetails {
     }
 
     public String getLast_name() {
-        return last_name;
+        return lastName;
     }
 
     public void setLast_name(String last_name) {
-        this.last_name = last_name;
+        this.lastName = last_name;
     }
 
     public int getAge() {
@@ -172,29 +174,28 @@ public class User implements UserDetails {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return getId() == user.getId() && getAge() == user.getAge() && getUsername().equals(user.getUsername()) && getPassword().equals(user.getPassword()) && getName().equals(user.getName()) && lastName.equals(user.lastName) && getEmail().equals(user.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getUsername(), getPassword(), getName(), lastName, getAge(), getEmail());
+    }
+
+    @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
-                ", last_name='" + last_name + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", age=" + age +
                 ", email='" + email + '\'' +
-                ", roles=" + roles +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
-        return getId() == user.getId() && getAge() == user.getAge() && Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getName(), user.getName()) && Objects.equals(getLast_name(), user.getLast_name()) && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getRoles(), user.getRoles());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getUsername(), getPassword(), getName(), getLast_name(), getAge(), getEmail(), getRoles());
     }
 }
