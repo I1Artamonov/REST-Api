@@ -18,11 +18,16 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/user")
-    public String userPage(Model model, Principal principal) {
-        model.addAttribute("user", userService.getUserByUsername(principal.getName()));
-        return "show";
+    @GetMapping("/users")
+    public String users(){
+        return "users";
     }
+
+//    @GetMapping("/user")
+//    public String userPage(Model model, Principal principal) {
+//        model.addAttribute("user", userService.getUserByUsername(principal.getName()));
+//        return "show";
+//    }
 
 //    @GetMapping("/user/{id}")
 //    public String showUserPageById(Model model, @PathVariable("id") int id) {

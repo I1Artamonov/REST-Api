@@ -20,8 +20,13 @@ public class RestUserController {
         this.userService = userService;
     }
 
+//    @GetMapping()
+//    public ResponseEntity<User> getUserByUsername(Principal principal) {
+//        return ResponseEntity.ok(userService.getUserByUsername(principal.getName()));
+//    }
+
     @GetMapping()
-    public ResponseEntity<User> getUserByUsername(Principal principal) {
-        return ResponseEntity.ok(userService.getUserByUsername(principal.getName()));
+    public User getUserByUsername(Principal principal) {
+        return userService.getUserByUsername(principal.getName());
     }
 }
