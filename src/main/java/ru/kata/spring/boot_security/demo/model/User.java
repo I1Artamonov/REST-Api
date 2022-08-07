@@ -1,11 +1,10 @@
 package ru.kata.spring.boot_security.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.*;
-
 
 @Entity
 @Table(name = "users")
@@ -19,7 +18,6 @@ public class User implements UserDetails {
     private String username;
 
     @Column(name = "password", nullable = false)
-    @JsonIgnore
     private String password;
 
     @Column(name = "name")
@@ -36,7 +34,7 @@ public class User implements UserDetails {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
 
 
@@ -196,6 +194,7 @@ public class User implements UserDetails {
                 ", lastName='" + lastName + '\'' +
                 ", age=" + age +
                 ", email='" + email + '\'' +
+                ", roles=" + roles.toString() +
                 '}';
     }
 }

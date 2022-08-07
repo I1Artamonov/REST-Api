@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.dao.RoleDao;
 import ru.kata.spring.boot_security.demo.model.Role;
 
+import java.lang.reflect.Array;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -56,6 +58,15 @@ public class RoleServiceImpl implements RoleService{
             rolesSet.add(roleDao.getRoleByName(newRole));
         }
         return rolesSet;
+    }
+
+
+    public Set<Role> getPersistRolesByRoleSet (Set<Role> roles) {
+        Set<Role> roleSet = new HashSet<>();
+        for (Role role : roles){
+            roleSet.add(roleDao.getRoleByName(role.getRole()));
+        }
+        return roleSet;
     }
 }
 

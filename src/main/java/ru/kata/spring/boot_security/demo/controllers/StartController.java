@@ -45,5 +45,6 @@ public class StartController {
         userService.saveUser(admin);
         userService.saveUser(user);
 
+
     }
 }

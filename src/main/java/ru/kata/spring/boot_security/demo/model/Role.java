@@ -2,10 +2,14 @@ package ru.kata.spring.boot_security.demo.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
+
+import static org.hibernate.annotations.CascadeType.MERGE;
+import static org.hibernate.annotations.CascadeType.PERSIST;
 
 @Entity
 @Table(name = "roles")
@@ -68,5 +72,13 @@ public class Role implements GrantedAuthority {
     @Override
     public int hashCode() {
         return Objects.hash(id, getRole(), getUsers());
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

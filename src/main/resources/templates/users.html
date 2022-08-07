@@ -26,9 +26,9 @@
 
         <div class="col-2 pl-md-0 pt-md-3">
             <div class="nav flex-column nav-pills pt-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a class="nav-link" href="api/admin/users" sec:authorize="hasRole('ROLE_ADMIN')"
+                <a class="nav-link" href="/admin" sec:authorize="hasRole('ROLE_ADMIN')"
                    aria-controls="v-pills-home" aria-selected="false">Admin</a>
-                <a class="nav-link active" href="/api/users" sec:authorize="(hasAnyRole('ROLE_USER','ROLE_ADMIN'))"
+                <a class="nav-link active" href="/users" sec:authorize="(hasAnyRole('ROLE_USER','ROLE_ADMIN'))"
                    role="tab"
                    aria-controls="v-pills-profile" aria-selected="true">User</a>
             </div>
@@ -55,7 +55,7 @@
                                         <th>Roles</th>
                                     </tr>
                                     <tbody id="User">
-                                    <!-- user.js -->
+
                                     </tbody>
                                 </table>
                             </div>
@@ -70,17 +70,30 @@
 </div>
 
 
+<script>
 
-<script type="text/javascript" src="../static/user.js"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+    const url = 'http://localhost:8080/api/users'
+    const header = document.querySelector('#head')
+    const user = document.querySelector('#User')
+
+    fetch(url)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            header.innerHTML = `<span class="align-middle font-weight-bold mr-1">${data.username}   </span></b>
+                <span class="align-middle mr-1">with roles:  </span>
+                <span>  ${data.roles.map(role => role.role === 'ROLE_USER' ? 'USER' : 'ADMIN')}</span>`;
+            user.innerHTML = `
+                                <td>${data.id}</td>
+                                <td>${data.username}</td>
+                                <td>${data.name}</td>
+                                <td>${data.last_name}</td>
+                                <td>${data.age}</td>
+                                <td>${data.email}</td>
+                                <td>${data.roles.map(role => role.role === 'ROLE_USER' ? 'USER' : 'ADMIN')}</td>
+                                `;
+        })
+</script>
 
 </body>
 </html>

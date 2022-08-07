@@ -4,6 +4,7 @@ package ru.kata.spring.boot_security.demo.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.configs.PasswordConfig;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -44,6 +45,7 @@ public class RestAdminController {
     //проверить как обновляются роли и пароль
     @PutMapping()
     public User update(@RequestBody User user) {
+        System.out.println(user.toString());
         userService.updateUser(user);
         return user;
     }
@@ -52,5 +54,10 @@ public class RestAdminController {
     public List<User> deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
         return userService.getAllUsers();
+    }
+
+    @GetMapping("/roles")
+    public List<Role> getRoles() {
+        return roleService.getAllRoles();
     }
 }
